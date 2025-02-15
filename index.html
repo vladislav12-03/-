@@ -49,7 +49,7 @@
 
     <h1 id="question">Ты меня любишь?</h1>
     
-    <div class="buttons">
+    <div class="buttons" id="buttons">
         <button class="yes" onclick="yesClick()">Да</button>
         <button class="no" id="noButton" onclick="noClick()">Нет</button>
     </div>
@@ -68,6 +68,7 @@
 
         function yesClick() {
             document.getElementById("answer").style.display = "block"; 
+            document.getElementById("buttons").style.display = "none"; // Убираем кнопки
             let timerElement = document.getElementById("timer");
             timerElement.style.display = "block";
 
