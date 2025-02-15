@@ -6,7 +6,7 @@
     <title>Валентинка</title>
     <style>
         body {
-            background-color: pink;
+            background-color: yellow;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -59,6 +59,7 @@
 
     <script>
         let countdown;
+        let startTime;
 
         function noClick() {
             document.getElementById("noButton").style.display = "none"; 
@@ -69,22 +70,32 @@
             document.getElementById("answer").style.display = "block"; 
             let timerElement = document.getElementById("timer");
             timerElement.style.display = "block";
-            let timeLeft = 40;
-            timerElement.innerText = timeLeft;
+
+            let duration = 40000; // 40 секунд в миллисекундах
+            startTime = Date.now();
 
             countdown = setInterval(() => {
-                timeLeft--;
-                timerElement.innerText = timeLeft;
-                if (timeLeft <= 0) {
+                let elapsed = Date.now() - startTime;
+                let remaining = duration - elapsed;
+
+                if (remaining <= 0) {
                     clearInterval(countdown);
                     document.body.style.backgroundColor = "black";
                     document.getElementById("question").innerText = "Ты зря ждала, тут ничего нет";
                     timerElement.style.color = "red";
+                    timerElement.innerText = "00:00:00:000";
+
                     setTimeout(() => {
                         alert("Ошибка 404: смысл жизни не найден.");
                     }, 1000);
+                } else {
+                    let minutes = Math.floor((remaining / 1000 / 60) % 60);
+                    let seconds = Math.floor((remaining / 1000) % 60);
+                    let milliseconds = remaining % 1000;
+
+                    timerElement.innerText = `00:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(3, '0')}`;
                 }
-            }, 1000);
+            }, 10);
         }
     </script>
 
