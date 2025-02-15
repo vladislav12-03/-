@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Валентинка</title>
+    <style>
+        body {
+            background-color: yellow;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            transition: background 1s ease-in-out;
+        }
+        h1 {
+            font-size: 2em;
+            color: red;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .yes {
+            background-color: lightgreen;
+        }
+        .no {
+            background-color: lightcoral;
+        }
+        #timer {
+            font-size: 2em;
+            margin-top: 20px;
+            color: green;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="question">Ты меня любишь?</h1>
+    
+    <div class="buttons">
+        <button class="yes" onclick="yesClick()">Да</button>
+        <button class="no" id="noButton" onclick="noClick()">Нет</button>
+    </div>
+
+    <h2 id="answer" style="display: none;">Я знаю</h2>
+    <h2 id="timer"></h2>
+
+    <script>
+        let countdown;
+        let startTime;
+
+        function noClick() {
+            document.getElementById("noButton").style.display = "none"; 
+            document.getElementById("question").innerText = "Сосала?";
+        }
+
+        function yesClick() {
+            document.getElementById("answer").style.display = "block"; 
+            let timerElement = document.getElementById("timer");
+            timerElement.style.display = "block";
+
+            let duration = 40000; // 40 секунд в миллисекундах
+            startTime = Date.now();
+
+            countdown = setInterval(() => {
+                let elapsed = Date.now() - startTime;
+                let remaining = duration - elapsed;
+
+                if (remaining <= 0) {
+                    clearInterval(countdown);
+                    document.body.style.backgroundColor = "black";
+                    document.getElementById("question").innerText = "Ты зря ждала, тут ничего нет";
+                    timerElement.style.color = "red";
+                    timerElement.innerText = "00:00:00:000";
+
+                    setTimeout(() => {
+                        alert("Ошибка 404: смысл жизни не найден.");
+                    }, 1000);
+                } else {
+                    let minutes = Math.floor((remaining / 1000 / 60) % 60);
+                    let seconds = Math.floor((remaining / 1000) % 60);
+                    let milliseconds = remaining % 1000;
+
+                    timerElement.innerText = `00:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(3, '0')}`;
+                }
+            }, 10);
+        }
+    </script>
+
+</body>
+</html>
